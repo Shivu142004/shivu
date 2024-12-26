@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Application Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Logo background */
+        .background-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('your-logo-url.png') no-repeat center center;
+            background-size: contain;
+            opacity: 0.1;
+            z-index: -1; /* Makes sure logo is behind the form */
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-weight: 600;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        form input:focus, form select:focus, form textarea:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+
+        .gender-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .gender-options label {
+            background-color: #a5d6a7;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .gender-options input {
+            display: none;
+        }
+
+        .gender-options input:checked + label {
+            background-color: #4caf50;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        .remove-btn {
+            background-color: #d32f2f;
+        }
+
+        .remove-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        #output {
+            margin-top: 20px;
+            background: #f1f8e9;
+            padding: 20px;
+            border: 1px solid #c5e1a5;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        #output h3 {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .output-text {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Logo -->
+    <div class="background-logo"></div>
+
+    <div class="form-container">
+        <h1>Online Application Form</h1>
+        <form id="applicationForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="country">Country:</label>
+            <select id="country" name="country" required>
+                <option value="" disabled selected>Select your country</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="India">India</option>
+                <option value="UK">UK</option>
+                <option value="Australia">Australia</option>
+            </select>
+
+            <label for="gender">Gender:</label>
+            <div class="gender-options">
+                <input type="radio" id="male" name="gender" value="Male" required>
+                <label for="male">Male</label>
+
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+
+                <input type="radio" id="other" name="gender" value="Other">
+                <label for="other">Other</label>
+            </div>
+
+            <label for="bio">Bio Line:</label>
+            <textarea id="bio" name="bio" rows="3" placeholder="Write a short bio..."></textarea>
+
+            <button type="button" id="submitBtn">Submit</button>
+            <button type="button" id="removeBtn" class="remove-btn">Remove Details</button>
+        </form>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        // JavaScript
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const dob = document.getElementById('dob').value;
+            const country = document.getElementById('country').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            const bio = document.getElementById('bio').value;
+
+            if (name && email && phone && dob && country && gender) {
+                const output = `
+                    <h3>Form Submission Successful!</h3>
+                    <p class="output-text"><strong>Name:</strong> ${name}</p>
+                    <p class="output-text"><strong>Email:</strong> ${email}</p>
+                    <p class="output-text"><strong>Phone:</strong> ${phone}</p>
+                    <p class="output-text"><strong>Date of Birth:</strong> ${dob}</p>
+                    <p class="output-text"><strong>Country:</strong> ${country}</p>
+                    <p class="output-text"><strong>Gender:</strong> ${gender}</p>
+                    <p class="output-text"><strong>Bio:</strong> ${bio || 'Not provided'}</p>
+                `;
+                document.getElementById('output').innerHTML = output;
+                document.getElementById('output').style.display = 'block';
+            } else {
+                alert('Please fill out all required fields.');
+            }
+        });
+
+        // Clear the displayed details
+        document.getElementById('removeBtn').addEventListener('click', function () {
+            document.getElementById('output').style.display = 'none';
+            document.getElementById('output').innerHTML = '';
+        });
+    </script>
+</body>
+</html>
